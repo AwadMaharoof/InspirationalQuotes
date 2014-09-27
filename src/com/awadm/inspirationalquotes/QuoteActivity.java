@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class QuoteActivity extends Activity implements OnClickListener {
 
 	TextView quote;
+	TextView author;
 	Button refresh;
 	Button share;
 
@@ -55,6 +56,9 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				"fonts/BebasNeue.otf");
 		quote = (TextView) findViewById(R.id.quote_text);
 		quote.setTypeface(custom_font);
+		author = (TextView) findViewById(R.id.author_text);
+		author.setTypeface(custom_font);
+
 		refresh = (Button) findViewById(R.id.refresh);
 		refresh.setOnClickListener(this);
 		refresh.setTypeface(custom_font);
@@ -92,12 +96,11 @@ public class QuoteActivity extends Activity implements OnClickListener {
 			}
 		}
 
-		protected void onProgressUpdate(Integer... progress) {
-			quote.setText("Loading " + progress + "%");
-		}
-
 		protected void onPostExecute(String quoteText) {
-			quote.setText(quoteText);
+			String[] a = quoteText.split("\\s(?=\\()|(?<=\\()\\s"); //split the quote author
+			quote.setText(a[0]);
+			if (a.length == 2) //some quotes dont have authors
+				author.setText(a[1].replace('(', ' ').replace(')', ' '));
 		}
 	}
 }
