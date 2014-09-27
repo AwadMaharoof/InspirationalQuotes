@@ -9,6 +9,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +26,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quote_activity); // set view
-		findViews(); // find view from layout
+		findViews();
 		setRandomQuote();
 	}
 
@@ -36,22 +37,30 @@ public class QuoteActivity extends Activity implements OnClickListener {
 			setRandomQuote();
 			break;
 		case R.id.share:
-			Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+			Intent sharingIntent = new Intent(
+					android.content.Intent.ACTION_SEND);
 			sharingIntent.setType("text/plain");
 			String shareBody = (String) quote.getText();
-			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Inspirational Quotes");
-			sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+					"Inspirational Quotes");
+			sharingIntent
+					.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 			startActivity(Intent.createChooser(sharingIntent, "Share via"));
 			break;
 		}
 	}
 
 	private void findViews() {
+		Typeface custom_font = Typeface.createFromAsset(getAssets(),
+				"fonts/BebasNeue.otf");
 		quote = (TextView) findViewById(R.id.quote_text);
+		quote.setTypeface(custom_font);
 		refresh = (Button) findViewById(R.id.refresh);
 		refresh.setOnClickListener(this);
+		refresh.setTypeface(custom_font);
 
 		share = (Button) findViewById(R.id.share);
+		share.setTypeface(custom_font);
 		share.setOnClickListener(this);
 	}
 
@@ -88,7 +97,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		}
 
 		protected void onPostExecute(String quoteText) {
-			quote.setText("\"" + quoteText + "\"");
+			quote.setText(quoteText);
 		}
 	}
 }

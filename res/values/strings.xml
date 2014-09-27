@@ -1,5 +1,7 @@
 <resources>
 
-    <string name="app_name">InspirationalQuotes</string>
+    <string name="app_name">Inspirational Quotes</string>
+    <string name="share">SHARE</string>
+    <string name="next">NEXT</string>
 
 </resources>
