@@ -8,8 +8,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -69,7 +74,32 @@ public class QuoteActivity extends Activity implements OnClickListener {
 	}
 
 	private void setRandomQuote() {
-		new RetrieveFeedTask().execute();
+		// check connectivity
+		if (isNetworkAvailable()) {
+			new RetrieveFeedTask().execute();
+		} else {
+			new AlertDialog.Builder(this)
+					.setTitle("No connectivity")
+					.setMessage(
+							"We noticed that you are not connected to tne internet. Please connect and try again")
+					.setPositiveButton("Exit",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									finish();
+								}
+							})
+					// .setNegativeButton("View favourites",
+					// new DialogInterface.OnClickListener() {
+					// public void onClick(DialogInterface dialog,
+					// int which) {
+					//
+					// }
+					// }).setIcon(android.R.drawable.ic_menu_info_details)
+					// .setIcon(android.R.drawable.ic_dialog_alert)
+					.show();
+		}
+
 	}
 
 	class RetrieveFeedTask extends AsyncTask<String, Integer, String> {
@@ -97,10 +127,20 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		}
 
 		protected void onPostExecute(String quoteText) {
-			String[] a = quoteText.split("\\s(?=\\()|(?<=\\()\\s"); //split the quote author
+			String[] a = quoteText.split("\\s(?=\\()|(?<=\\()\\s"); // split the
+																	// quote
+																	// author
 			quote.setText(a[0]);
-			if (a.length == 2) //some quotes dont have authors
+			if (a.length == 2) // some quotes dont have authors
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
 		}
+	}
+
+	public boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null
+				&& activeNetworkInfo.isConnectedOrConnecting();
 	}
 }
