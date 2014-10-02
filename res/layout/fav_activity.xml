@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_ll"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:gravity="bottom"
@@ -38,27 +39,13 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight=".5"
-            android:background="@android:color/transparent"
-            android:text="@string/favourite" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:background="@android:color/darker_gray" />
-
-        <Button
-            android:id="@+id/share"
+            android:id="@+id/previous"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight=".5"
             android:background="@android:color/transparent"
-            android:text="@string/share" />
+            android:text="@string/prev" />
 
         <View
             android:layout_width="1dp"

@@ -7,16 +7,22 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.awadm.inspirationalquotes.FavouriteContract.FeedEntry;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,12 +34,31 @@ public class QuoteActivity extends Activity implements OnClickListener {
 	TextView author;
 	Button refresh;
 	Button share;
+	Button favourite;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.quote_activity); // set view
 		findViews();
 		setRandomQuote();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("View favourites");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch ((String) item.getTitle()) {
+		case "View favourites":
+			Intent intent = new Intent(this, FavouriteActivity.class);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -53,7 +78,23 @@ public class QuoteActivity extends Activity implements OnClickListener {
 					.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 			startActivity(Intent.createChooser(sharingIntent, "Share via"));
 			break;
+		case R.id.fav:
+			saveQuote();
+			break;
 		}
+	}
+
+	private void saveQuote() {
+		FavouritesDbHelper mDbHelper = new FavouritesDbHelper(this);
+		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_NAME_QUOTE, (String) quote.getText());
+		values.put(FeedEntry.COLUMN_NAME_AUTHOR, (String) author.getText());
+
+		db.insert(FeedEntry.TABLE_NAME, null, values);
+		//disable share button so users cant favorite over and over
+		favourite.setEnabled(false);
 	}
 
 	private void findViews() {
@@ -67,6 +108,10 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		refresh = (Button) findViewById(R.id.refresh);
 		refresh.setOnClickListener(this);
 		refresh.setTypeface(custom_font);
+
+		favourite = (Button) findViewById(R.id.fav);
+		favourite.setOnClickListener(this);
+		favourite.setTypeface(custom_font);
 
 		share = (Button) findViewById(R.id.share);
 		share.setTypeface(custom_font);
@@ -89,7 +134,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 									finish();
 								}
 							})
-					// .setNegativeButton("View favourites",
+					// .setNegativeButton("View favorites",
 					// new DialogInterface.OnClickListener() {
 					// public void onClick(DialogInterface dialog,
 					// int which) {
@@ -99,7 +144,6 @@ public class QuoteActivity extends Activity implements OnClickListener {
 					// .setIcon(android.R.drawable.ic_dialog_alert)
 					.show();
 		}
-
 	}
 
 	class RetrieveFeedTask extends AsyncTask<String, Integer, String> {
@@ -113,26 +157,24 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				HttpEntity resEntityGet = responseGet.getEntity();
 
 				if (resEntityGet != null) {
-					// do something with the response
-					String response = EntityUtils.toString(resEntityGet);
-					return response;
-
+					return EntityUtils.toString(resEntityGet);
 				} else {
-					return "null reponse";
+					return "We could not retrieve your quote :( Please tap next to retry";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "";
+				return "We ran into a tiny problem :( Please tap next to retry";
 			}
 		}
 
 		protected void onPostExecute(String quoteText) {
-			String[] a = quoteText.split("\\s(?=\\()|(?<=\\()\\s"); // split the
-																	// quote
-																	// author
-			quote.setText(a[0]);
+			// extract the quote author
+			String[] a = quoteText.split("\\s(?=\\()|(?<=\\()\\s");
+			quote.setText(a[0]); // first index is always the quote
 			if (a.length == 2) // some quotes dont have authors
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
+			//enable favorite after each quote is set
+			favourite.setEnabled(true);
 		}
 	}
 

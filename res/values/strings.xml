@@ -3,5 +3,7 @@
     <string name="app_name">Inspirational Quotes</string>
     <string name="share">SHARE</string>
     <string name="next">NEXT</string>
+    <string name="prev">PREVIOUS</string>
+    <string name="favourite">&#60;3</string>
 
 </resources>
