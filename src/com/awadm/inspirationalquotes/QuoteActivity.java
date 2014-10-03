@@ -53,8 +53,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ((String) item.getTitle()) {
 		case "View favourites":
-			Intent intent = new Intent(this, FavouriteActivity.class);
-			startActivity(intent);
+			startFavActivity();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -93,7 +92,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		values.put(FeedEntry.COLUMN_NAME_AUTHOR, (String) author.getText());
 
 		db.insert(FeedEntry.TABLE_NAME, null, values);
-		//disable share button so users cant favorite over and over
+		// disable share button so users cant favorite over and over
 		favourite.setEnabled(false);
 	}
 
@@ -134,14 +133,14 @@ public class QuoteActivity extends Activity implements OnClickListener {
 									finish();
 								}
 							})
-					// .setNegativeButton("View favorites",
-					// new DialogInterface.OnClickListener() {
-					// public void onClick(DialogInterface dialog,
-					// int which) {
-					//
-					// }
-					// }).setIcon(android.R.drawable.ic_menu_info_details)
-					// .setIcon(android.R.drawable.ic_dialog_alert)
+					.setNegativeButton("View favorites",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									startFavActivity();
+									finish();
+								}
+							}).setIcon(android.R.drawable.ic_dialog_alert)
 					.show();
 		}
 	}
@@ -173,7 +172,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 			quote.setText(a[0]); // first index is always the quote
 			if (a.length == 2) // some quotes dont have authors
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
-			//enable favorite after each quote is set
+			// enable favorite after each quote is set
 			favourite.setEnabled(true);
 		}
 	}
@@ -184,5 +183,10 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null
 				&& activeNetworkInfo.isConnectedOrConnecting();
+	}
+
+	private void startFavActivity() {
+		Intent intent = new Intent(this, FavouriteActivity.class);
+		startActivity(intent);
 	}
 }
