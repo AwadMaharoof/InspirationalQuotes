@@ -37,6 +37,9 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		if (!quotes.isEmpty()) {
 			quoteIndex = 0;
 			setQuote(quotes.get(quoteIndex));
+		}else{
+			//no favorites
+			quote.setText("You dont seem to have favorited any quotes :)");
 		}
 
 	}
