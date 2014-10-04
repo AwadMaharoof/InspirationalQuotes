@@ -9,6 +9,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.awadm.inspirationalquotes.FavouriteContract.FeedEntry;
 
+import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -94,11 +95,15 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		db.insert(FeedEntry.TABLE_NAME, null, values);
 		// disable share button so users cant favorite over and over
 		favourite.setEnabled(false);
+		favourite.setTextColor(getResources().getColor(color.holo_red_dark));
 	}
 
 	private void findViews() {
 		Typeface custom_font = Typeface.createFromAsset(getAssets(),
 				"fonts/BebasNeue.otf");
+
+		Typeface icon_font = Typeface.createFromAsset(getAssets(),
+				"fonts/fontawesome-webfont.ttf");
 		quote = (TextView) findViewById(R.id.quote_text);
 		quote.setTypeface(custom_font);
 		author = (TextView) findViewById(R.id.author_text);
@@ -110,10 +115,10 @@ public class QuoteActivity extends Activity implements OnClickListener {
 
 		favourite = (Button) findViewById(R.id.fav);
 		favourite.setOnClickListener(this);
-		favourite.setTypeface(custom_font);
+		favourite.setTypeface(icon_font);
 
 		share = (Button) findViewById(R.id.share);
-		share.setTypeface(custom_font);
+		share.setTypeface(icon_font);
 		share.setOnClickListener(this);
 	}
 
@@ -174,6 +179,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
 			// enable favorite after each quote is set
 			favourite.setEnabled(true);
+			favourite.setTextColor(getResources().getColor(color.black));
 		}
 	}
 

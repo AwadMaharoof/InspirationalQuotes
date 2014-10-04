@@ -37,8 +37,8 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		if (!quotes.isEmpty()) {
 			quoteIndex = 0;
 			setQuote(quotes.get(quoteIndex));
-		}else{
-			//no favorites
+		} else {
+			// no favorites
 			quote.setText("You dont seem to have favorited any quotes :)");
 		}
 
@@ -63,17 +63,11 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 				);
 
 		startManagingCursor(c);
-
-		try {
-			while (c.moveToNext()) {
-				Quote q = new Quote();
-				q.quote = c.getString(1);
-				q.author = c.getString(2);
-				quotes.add(q);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		while (c.moveToNext()) {
+			Quote q = new Quote();
+			q.quote = c.getString(1);
+			q.author = c.getString(2);
+			quotes.add(q);
 		}
 	}
 
@@ -87,9 +81,8 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch ((String) item.getTitle()) {
 		case "Browse quotes":
-			Intent intent = new Intent(this, QuoteActivity.class);
-			startActivity(intent);
 			finish();
+			super.onBackPressed();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

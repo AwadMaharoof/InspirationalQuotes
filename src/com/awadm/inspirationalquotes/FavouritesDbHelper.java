@@ -13,8 +13,7 @@ public class FavouritesDbHelper extends SQLiteOpenHelper {
 	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
 			+ FeedEntry.TABLE_NAME + " (" + FeedEntry._ID
 			+ " INTEGER PRIMARY KEY," + FeedEntry.COLUMN_NAME_QUOTE + TEXT_TYPE
-			+ COMMA_SEP + FeedEntry.COLUMN_NAME_AUTHOR + TEXT_TYPE
-			+ " )";
+			+ COMMA_SEP + FeedEntry.COLUMN_NAME_AUTHOR + TEXT_TYPE + " )";
 
 	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS "
 			+ FeedEntry.TABLE_NAME;

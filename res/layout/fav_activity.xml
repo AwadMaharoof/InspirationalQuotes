@@ -1,65 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent_ll"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    tools:context=".QuoteActivity" >
+    android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
+    <TextView
+        android:id="@+id/quote_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="50dp"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/quote_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="50dp"
-            android:gravity="center_vertical|left"
-            android:textSize="30sp" />
+    <TextView
+        android:id="@+id/author_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quote_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/author_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical|left"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/previous"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/seperator"
+        android:background="@android:color/transparent"
+        android:text="@string/prev" />
 
-        <Button
-            android:id="@+id/previous"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight=".5"
-            android:background="@android:color/transparent"
-            android:text="@string/prev" />
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@android:color/darker_gray" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:background="@android:color/darker_gray" />
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/seperator"
+        android:background="@android:color/transparent"
+        android:text="@string/next" />
 
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight=".5"
-            android:background="@android:color/transparent"
-            android:text="@string/next" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
