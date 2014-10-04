@@ -6,7 +6,6 @@ import java.util.List;
 import com.awadm.inspirationalquotes.FavouriteContract.FeedEntry;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -24,6 +23,7 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 	TextView author;
 	Button refresh;
 	Button prev;
+	Button delete;
 	List<Quote> quotes;
 	int quoteIndex;
 
@@ -34,14 +34,20 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		quotes = new ArrayList<>();
 		fetchQuotes();
 
-		if (!quotes.isEmpty()) {
+		if (quotes.isEmpty()) {
+			// no favorites
+			quotesEmpty();
+		} else {
 			quoteIndex = 0;
 			setQuote(quotes.get(quoteIndex));
-		} else {
-			// no favorites
-			quote.setText("You dont seem to have favorited any quotes :)");
 		}
 
+	}
+
+	private void quotesEmpty() {
+		delete.setEnabled(false);
+		quote.setText("You dont seem to have favorited any quotes :)");
+		author.setText("");
 	}
 
 	private void fetchQuotes() {
@@ -65,6 +71,7 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		startManagingCursor(c);
 		while (c.moveToNext()) {
 			Quote q = new Quote();
+			q.id = c.getString(0);
 			q.quote = c.getString(1);
 			q.author = c.getString(2);
 			quotes.add(q);
@@ -98,6 +105,34 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		case R.id.previous:
 			prev();
 			break;
+		case R.id.delete:
+			removeQuote();
+			break;
+		}
+	}
+
+	private void removeQuote() {
+		if (!quotes.isEmpty()) {
+			Quote toDelete = quotes.get(quoteIndex);
+			FavouritesDbHelper mDbHelper = new FavouritesDbHelper(this);
+			SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+			db.delete(FeedEntry.TABLE_NAME, FeedEntry._ID + "=?",
+					new String[] { toDelete.id });
+
+			quotes.remove(quoteIndex--); // remove quote from current list
+
+			if (quotes.isEmpty()) {
+				// no more quotes
+				quotesEmpty();
+			} else {
+				// we removed the last item in the list, so set the first quote
+				if (quoteIndex + 1 == quotes.size()) {
+					setQuote(quotes.get(quoteIndex = 0));
+				} else {
+					next(); // load next quote to view
+				}
+			}
 		}
 	}
 
@@ -119,6 +154,8 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 	private void findViews() {
 		Typeface custom_font = Typeface.createFromAsset(getAssets(),
 				"fonts/BebasNeue.otf");
+		Typeface icon_font = Typeface.createFromAsset(getAssets(),
+				"fonts/fontawesome-webfont.ttf");
 		quote = (TextView) findViewById(R.id.quote_text);
 		quote.setTypeface(custom_font);
 		author = (TextView) findViewById(R.id.author_text);
@@ -133,5 +170,10 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		prev = (Button) findViewById(R.id.previous);
 		prev.setOnClickListener(this);
 		prev.setTypeface(custom_font);
+
+		// delete
+		delete = (Button) findViewById(R.id.delete);
+		delete.setOnClickListener(this);
+		delete.setTypeface(icon_font);
 	}
 }
