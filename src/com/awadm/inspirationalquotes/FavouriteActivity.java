@@ -41,7 +41,6 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 			quoteIndex = 0;
 			setQuote(quotes.get(quoteIndex));
 		}
-
 	}
 
 	private void quotesEmpty() {

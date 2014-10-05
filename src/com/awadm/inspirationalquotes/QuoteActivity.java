@@ -71,7 +71,8 @@ public class QuoteActivity extends Activity implements OnClickListener {
 			Intent sharingIntent = new Intent(
 					android.content.Intent.ACTION_SEND);
 			sharingIntent.setType("text/plain");
-			String shareBody = (String) quote.getText();
+			String shareBody = (String) quote.getText() + " - "
+					+ (String) author.getText();
 			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
 					"Inspirational Quotes");
 			sharingIntent
@@ -150,6 +151,10 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void toggleFavBtn(Boolean isEnabled) {
+		favourite.setEnabled(isEnabled);
+	}
+
 	class RetrieveFeedTask extends AsyncTask<String, Integer, String> {
 		protected String doInBackground(String... progress) {
 			try {
@@ -163,10 +168,12 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				if (resEntityGet != null) {
 					return EntityUtils.toString(resEntityGet);
 				} else {
+					toggleFavBtn(false);
 					return "We could not retrieve your quote :( Please tap next to retry";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				toggleFavBtn(false);
 				return "We ran into a tiny problem :( Please tap next to retry";
 			}
 		}
@@ -178,7 +185,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 			if (a.length == 2) // some quotes dont have authors
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
 			// enable favorite after each quote is set
-			favourite.setEnabled(true);
+			toggleFavBtn(true);
 			favourite.setTextColor(getResources().getColor(color.black));
 		}
 	}
