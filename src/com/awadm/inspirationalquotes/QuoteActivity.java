@@ -6,9 +6,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
 import com.awadm.inspirationalquotes.FavouriteContract.FeedEntry;
-
 import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -96,7 +95,7 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		db.insert(FeedEntry.TABLE_NAME, null, values);
 		// disable share button so users cant favorite over and over
 		favourite.setEnabled(false);
-		favourite.setTextColor(getResources().getColor(color.holo_red_dark));
+		favourite.setTextColor(getResources().getColor(color.holo_red_light));
 	}
 
 	private void findViews() {
@@ -151,6 +150,17 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void setRandomBackGround() {
+		View layout = findViewById(R.id.main_bg);
+
+		GradientDrawable gd = new GradientDrawable(
+				GradientDrawable.Orientation.TOP_BOTTOM,
+				Utils.randomGradient(getResources()));
+		gd.setCornerRadius(0f);
+
+		layout.setBackgroundDrawable(gd);
+	}
+
 	private void toggleFavBtn(Boolean isEnabled) {
 		favourite.setEnabled(isEnabled);
 	}
@@ -186,7 +196,8 @@ public class QuoteActivity extends Activity implements OnClickListener {
 				author.setText(a[1].replace('(', ' ').replace(')', ' '));
 			// enable favorite after each quote is set
 			toggleFavBtn(true);
-			favourite.setTextColor(getResources().getColor(color.black));
+			favourite.setTextColor(getResources().getColor(color.white));
+			setRandomBackGround();
 		}
 	}
 

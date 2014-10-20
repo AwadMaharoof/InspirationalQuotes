@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="color_1">
+        <item>0xFF7474BF</item>
+        <item>0xFF348AC7</item>
+    </integer-array>
+    <integer-array name="color_2">
+        <item>0xFFC04848</item>
+        <item>0xFF480048</item>
+    </integer-array>
+    <integer-array name="color_3">
+        <item>0xFF5f2c82</item>
+        <item>0xFF49a09d</item>
+    </integer-array>
+    <integer-array name="color_4">
+        <item>0xFFe43a15</item>
+        <item>0xFFe65245</item>
+    </integer-array>
+    <integer-array name="color_5">
+        <item>0xFF414d0b</item>
+        <item>0xFF727a17</item>
+    </integer-array>
+    <integer-array name="color_6">
+        <item>0xFF4b6cb7</item>
+        <item>0xFF182848</item>
+    </integer-array>
+
+</resources>

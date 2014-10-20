@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -148,6 +149,7 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 	private void setQuote(Quote quoteObj) {
 		quote.setText(quoteObj.quote);
 		author.setText(quoteObj.author);
+		setRandomBackGround();
 	}
 
 	private void findViews() {
@@ -174,5 +176,16 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		delete = (Button) findViewById(R.id.delete);
 		delete.setOnClickListener(this);
 		delete.setTypeface(icon_font);
+	}
+
+	private void setRandomBackGround() {
+		View layout = findViewById(R.id.main_bg);
+
+		GradientDrawable gd = new GradientDrawable(
+				GradientDrawable.Orientation.TOP_BOTTOM,
+				Utils.randomGradient(getResources()));
+		gd.setCornerRadius(0f);
+
+		layout.setBackgroundDrawable(gd);
 	}
 }

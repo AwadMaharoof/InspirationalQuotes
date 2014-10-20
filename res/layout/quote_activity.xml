@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="right" >
@@ -11,14 +12,14 @@
         android:layout_toLeftOf="@+id/share"
         android:background="@android:color/transparent"
         android:text="@string/fa_heart_o"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white" />
 
     <View
         android:layout_width="1dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
-        android:background="@android:color/darker_gray"
-        android:layout_toRightOf="@+id/fav" />
+        android:layout_toRightOf="@+id/fav"
+        android:background="@android:color/white" />
 
     <Button
         android:id="@+id/share"
@@ -26,21 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
-        android:text="@string/fa_share_alt" />
+        android:text="@string/fa_share_alt"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/quote_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignWithParentIfMissing="false"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="50dp"
-        android:focusableInTouchMode="false"
+        android:textColor="@android:color/white"
         android:textSize="30sp" />
 
     <TextView
@@ -50,13 +47,14 @@
         android:layout_below="@+id/quote_text"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
         android:textSize="20sp" />
-    
-        <View
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_above="@+id/refresh" />
+        android:layout_above="@+id/refresh"
+        android:background="@android:color/white" />
 
     <Button
         android:id="@+id/refresh"
@@ -64,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@android:color/transparent"
-        android:text="@string/next" />
+        android:text="@string/next"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
