@@ -14,6 +14,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -41,6 +42,11 @@ public class QuoteActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.quote_activity); // set view
 		findViews();
 		setRandomQuote();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override
