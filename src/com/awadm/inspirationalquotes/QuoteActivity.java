@@ -57,13 +57,13 @@ public class QuoteActivity extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch ((String) item.getTitle()) {
-		case "View favourites":
+		if (item.getTitle().equals("View favourites")) {
 			startFavActivity();
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
+
 	}
 
 	@Override

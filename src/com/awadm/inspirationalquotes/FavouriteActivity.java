@@ -85,13 +85,12 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch ((String) item.getTitle()) {
-		case "Browse quotes":
+	public boolean onOptionsItemSelected(MenuItem item) {		
+		if(item.getTitle().equals("Browse quotes")){
 			finish();
 			super.onBackPressed();
 			return true;
-		default:
+		}else{
 			return super.onOptionsItemSelected(item);
 		}
 	}
