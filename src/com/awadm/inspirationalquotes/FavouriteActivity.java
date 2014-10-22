@@ -32,7 +32,7 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fav_activity);
 		findViews();
-		quotes = new ArrayList<>();
+		quotes = new ArrayList<Quote>();
 		fetchQuotes();
 
 		if (quotes.isEmpty()) {
